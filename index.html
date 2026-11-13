@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="slides_files/libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.11.9">
+
+  <meta name="author" content="Amy Rouillard">
+  <title>Machine learning foundations</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-551387e55bd18ac156d007bcd7bced48.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Machine learning foundations</h1>
+  <p class="subtitle">AI, Uncertainty &amp; Simulation Workshop, Mauritius</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Amy Rouillard
+</div>
+</div>
+</div>
+
+</section>
+<section id="housekeeping" class="slide level2">
+<h2>Housekeeping</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h4 id="sticky-notes">Sticky notes</h4>
+<div class="stickies">
+<div class="sticky sticky-blue">
+<p><strong>Blue</strong><br>done, all good</p>
+</div>
+<div class="sticky sticky-yellow">
+<p><strong>Yellow</strong><br>stuck, or a question</p>
+</div>
+</div>
+</div><div class="column" style="width:25%;">
+<h4 id="particify">Particify</h4>
+<p><img data-src="images/join-qr.png" style="width:88.0%" alt="QR code linking to the voting room"></p>
+</div><div class="column" style="width:25%;">
+<div class="join-steps">
+<ol type="1">
+<li>Scan the code, or go to <strong>particify.de</strong></li>
+<li>Enter <strong>38549456</strong></li>
+<li>No account, no name</li>
+</ol>
+</div>
+</div></div>
+</section>
+<section id="plan" class="slide level2 optional">
+<h2>Plan</h2>
+<div id="0f80bbaa" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-3-output-1.png" alt="Session schedule as a vertical timeline. 00:00 Opening, 3.5 min. 00:03.5 1. Model evaluation, 23.5 min: lesson 12.5, interaction 11. 00:27 2. Trees and ensembles, 21.5 min: lesson 10.5, interaction 11. 00:48.5 Break, 5 min. 00:53.5 3. Neural networks for SBI, 24.5 min: lesson 11.5, interaction 13. 01:18 4. Conformal prediction, 26.5 min: lesson 12.5, interaction 14. 01:44.5 Closing, 3 min, ending at 01:47.5. The recap and extra slides after each topic are for later and not timed." width="845" height="580"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section>
+<section id="model-evaluation" class="title-slide slide level1 center">
+<h1>1 · Model evaluation</h1>
+
+</section>
+<section id="sampling-the-universe-two-kinds-of-model" class="slide level2 nostretch">
+<h2>Sampling the universe: two kinds of model</h2>
+<div class="r-stack anim">
+<p><img data-src="images/anim/universe-0.png" alt="The Hubble Ultra Deep Field: thousands of galaxies in one small patch of sky." width="1000"></p>
+<p><img data-src="images/anim/universe-1.png" class="fragment" alt="Arrows from the Hubble image out to two panels, each showing the same 25 sampled (x, y) pairs. The x values bunch into two groups: a larger one on the left, where y is high, and a smaller one on the right, where y is low." width="1000"></p>
+<p><img data-src="images/anim/universe-2.png" class="fragment" alt="Left panel, discriminative, p(y given x): a fitted curve with a band around it, and at one x a sideways bell curve showing how y is spread for that x." width="1000"></p>
+<p><img data-src="images/anim/universe-3.png" class="fragment" alt="Right panel, generative, p(x, y): shaded density contours around the two groups of points, with hollow markers for new (x, y) pairs the model generated." width="1000"></p>
+</div>
+</section>
+<section id="notation-supervised-learning" class="slide level2 nostretch">
+<h2>Notation (Supervised learning)</h2>
+<div id="f15090ab" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-6-output-1.png" alt="Diagram: a table of n examples (x, y), drawn at random from the same population P. The input x goes into the model f, which outputs a prediction y-hat. The loss l(y, y-hat) compares the prediction with the true answer y: how wrong?" width="1167" height="438"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Examples <span class="math inline">\((x_i, y_i)\)</span>, <span class="math inline">\(i = 1, \dots, n\)</span>, drawn independently from the same distribution <span class="math inline">\(P\)</span> (<strong>i.i.d.</strong>). The prediction <span class="math inline">\(\hat y = f(x)\)</span> is its best single guess. Squared loss <span class="math inline">\(\ell(y, \hat y) = (y - \hat y)^2\)</span>; 0–1 loss <span class="math inline">\(\ell(y, \hat y) = \mathbb{1}\{y \neq \hat y\}\)</span> (1 if wrong, 0 if right). Capitals <span class="math inline">\((X, Y)\)</span> are random, lower case are observed values; a hat <span class="math inline">\((\hat{f}, \hat{y})\)</span> marks anything estimated from data.</p>
+</div></details>
+</section>
+<section id="risk-the-average-loss-on-new-data" class="slide level2 nostretch">
+<h2>Risk: the average loss on new data</h2>
+<div id="8dfa11ab" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-7-output-1.png" alt="The same degree-9 fit shown twice. Left, with our 25 points: empirical risk 0.06, what we can measure. Right, with 400 new points from the population: risk about 0.19, what we want." width="633" height="390"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="pitfall fragment cbox cbox-pitfall">
+<div class="cbox-title">
+Overfitting
+</div>
+<p>The fit chased our 25 points, so its training error flatters it.</p>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Risk <span class="math inline">\(R(f) = \mathbb{E}\big[\ell(Y, f(X))\big]\)</span>, averaged over new pairs <span class="math inline">\((X, Y)\)</span> from <span class="math inline">\(P\)</span>. Empirical risk <span class="math inline">\(\hat R_n(f) = \frac{1}{n}\sum_{i=1}^{n} \ell(y_i, f(x_i))\)</span>. For a fitted <span class="math inline">\(\hat f\)</span>, <span class="math inline">\(\hat R_n(\hat f)\)</span> is on average below <span class="math inline">\(R(\hat f)\)</span>. In practice, <strong>training error</strong> is <span class="math inline">\(\hat R_n(\hat f)\)</span> on the examples used for fitting; the error on held-out examples (test or CV error) estimates <span class="math inline">\(R(\hat f)\)</span>.</p>
+</div></details>
+</section>
+<section id="same-data-three-fits.-which-one-would-you-deploy" class="slide level2">
+<h2>Same data, three fits. Which one would you deploy?</h2>
+<div id="f46eac78" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-8-output-1.png" alt="Three polynomial fits to the same 25 training points (black), with 400 new points from the same population in orange behind them: degree 1 misses the shape, degree 3 follows it, degree 9 bends towards individual training points and away from the new data at the edges. Training error 0.22, 0.06, 0.06; error on new data 0.22, 0.10, 0.19." width="1014" height="553"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="k-fold-cross-validation" class="slide level2">
+<h2>K-fold cross-validation</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Try each <strong>hyperparameter</strong> setting (here: the degree) and keep the one with the lowest CV error.</p>
+</div>
+<div class="r-stack anim">
+<p><img data-src="images/anim/kfold-0.png" alt="5-fold cross-validation, round 1: fold 1 (orange) is held out for scoring and the other four (light blue) are used for fitting. The table below adds that round's fold error e1 for degrees 1, 3 and 9." width="1000"></p>
+<p><img data-src="images/anim/kfold-1.png" class="fragment" alt="5-fold cross-validation, round 2: fold 2 (orange) is held out for scoring and the other four (light blue) are used for fitting. The table below adds that round's fold error e2 for degrees 1, 3 and 9." width="1000"></p>
+<p><img data-src="images/anim/kfold-2.png" class="fragment" alt="5-fold cross-validation, round 3: fold 3 (orange) is held out for scoring and the other four (light blue) are used for fitting. The table below adds that round's fold error e3 for degrees 1, 3 and 9." width="1000"></p>
+<p><img data-src="images/anim/kfold-3.png" class="fragment" alt="5-fold cross-validation, round 4: fold 4 (orange) is held out for scoring and the other four (light blue) are used for fitting. The table below adds that round's fold error e4 for degrees 1, 3 and 9." width="1000"></p>
+<p><img data-src="images/anim/kfold-4.png" class="fragment" alt="5-fold cross-validation, round 5: fold 5 (orange) is held out for scoring and the other four (light blue) are used for fitting. The table below adds that round's fold error e5 for degrees 1, 3 and 9." width="1000"></p>
+<p><img data-src="images/anim/kfold-5.png" class="fragment" alt="All five rounds done. Fold errors for degree 1: 0.16, 0.14, 0.33, 0.15, 0.44 (CV 0.24). Degree 3: 0.10, 0.08, 0.02, 0.10, 0.09 (CV 0.08, the lowest). Degree 9: 93.0, 0.24, 0.30, 0.11, 0.30 (CV 18.8)." width="1000"></p>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>For <strong>hyperparameter</strong> <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\mathrm{CV}(\lambda) = \frac{1}{K}\sum_{k=1}^{K} e_k(\lambda)\)</span>, where <span class="math inline">\(e_k(\lambda)\)</span> is the average loss on fold <span class="math inline">\(k\)</span> of the model fitted on the other <span class="math inline">\(K - 1\)</span> folds. Note, <span class="math inline">\(\lambda\)</span> is fixed before fitting.</p>
+</div></details>
+</section>
+<section id="the-winners-curse" class="slide level2">
+<h2>The winner’s curse</h2>
+<div id="d30b4261" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-11-output-1.png" alt="Fifty hyperparameter settings whose true accuracies all lie between 83% and 86%. Their CV accuracies scatter more widely; the best CV score is 91%, but that setting's accuracy on new data is 85%." width="986" height="428"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p><span class="math inline">\(\mathbb{E}\big[\max_j \widehat{\mathrm{Acc}}_j\big] \;\ge\; \max_j \mathbb{E}\big[\widehat{\mathrm{Acc}}_j\big]\)</span>: the maximum of noisy scores is biased upward.</p>
+</div></details>
+</section>
+<section id="data-leakage" class="slide level2">
+<h2>Data leakage</h2>
+<div class="pitfall cbox cbox-pitfall">
+<div class="cbox-title">
+Rule
+</div>
+<p>Every step that learns from data (scaling, feature selection, tuning) goes inside each training fold.</p>
+</div>
+<div id="d36b0d54" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-12-output-1.png" alt="Two pipelines. Wrong: select regularisation strength using all 50 samples, then run 5-fold CV, giving an error below 50% on average. Right: inside each of the 5 folds, select regularisation strength on the training folds only, fit, then score the held-out fold, giving an honest error of about 50%." width="985" height="447"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="what-does-training-error-alone-tell-you" class="slide level2">
+<h2>What does training error alone tell you?</h2>
+<div class="question">
+<p>A colleague fits a degree-2 and a degree-12 polynomial to the same 200 samples. Training error: 0.09 for degree 2, 0.02 for degree 12.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Degree 12 will do better on new data</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> Degree 12 is overfitting</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> You can’t tell yet: compare their CV errors</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Degree 2 is underfitting</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Training error is the fit to these 200 samples, not the error on new data.</li>
+<li><strong>B ✗</strong> Maybe, but a low training error doesn’t show it: if the truth is that wiggly, degree 12 could be best.</li>
+<li><strong>C ✓</strong> Training error can’t go up as the degree grows, so it can’t rank the two; CV error can.</li>
+<li><strong>D ✗</strong> 0.09 may be close to the noise level: without held-out data you can’t tell.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="cv-picked-degree-3-which-model-do-you-deploy" class="slide level2">
+<h2>CV picked degree 3: which model do you deploy?</h2>
+<div class="question">
+<p>5-fold CV on our 25 points picks degree 3 (CV error 0.08). Five degree-3 models were fitted along the way, one per round.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> The round’s model with the lowest fold error</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> Any one of the five: refitting would make the CV score invalid</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> Degree 3, refitted on all 25 points</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Degree 9: it has the lowest training error</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> That fold’s low error is partly luck, and its model saw only 20 of the 25 points.</li>
+<li><strong>B ✗</strong> CV scores the setting, degree 3 fitted on this much data, not one fitted model. A refit on all 25 points is usually a little better than any fold model.</li>
+<li><strong>C ✓</strong> CV picks the setting; then fit it once more on all the data you have.</li>
+<li><strong>D ✗</strong> Training error can’t choose the degree: that is why we ran CV.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="best-cv-score-94-what-do-you-report" class="slide level2">
+<h2>Best CV score 94%: what do you report?</h2>
+<div class="question">
+<p>You try 200 hyperparameter settings with 5-fold CV and keep the best. Its CV accuracy is <strong>94%</strong>. What do you report as its accuracy on new data?</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> 94%: CV scores are honest.</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> 94%, after re-running CV with 10 folds.</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> A score from data the selection never saw.</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Its training accuracy.</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> CV is roughly honest for one model fixed before you look; 94% is the best of 200 noisy scores.</li>
+<li><strong>B ✗</strong> More folds change how noisy each score is, not the selection effect: the winner is still the luckiest of 200.</li>
+<li><strong>C ✓</strong> Score the whole selection procedure on data it never saw: an untouched test set, or nested CV. Expect less than 94%.</li>
+<li><strong>D ✗</strong> Training accuracy is even more optimistic: the model has seen those points.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="what-cv-error-will-you-see" class="slide level2">
+<h2>What CV error will you see?</h2>
+<div class="question">
+<p>Labels are coin flips. 50 samples, 5,000 random features. You keep the 100 features most correlated with the label <strong>using all 50 samples</strong>, then run 5-fold CV on those 100.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> About 50%: the labels are random</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Far below 50%</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Above 50%</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> It depends only on the classifier</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> About 50% is what you get when selection runs inside each training fold.</li>
+<li><strong>B ✓</strong> Some of 5,000 random features match the coin flips by chance, test folds included. Run like this with 1-nearest-neighbour, CV reports about 1% error.</li>
+<li><strong>C ✗</strong> Nothing pushes the error above chance; the leak makes the test folds look easier.</li>
+<li><strong>D ✗</strong> Any classifier uses the leaked features: the problem is the pipeline, not the model.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="recap" class="slide level2">
+<h2>Recap</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key points
+</div>
+<ul>
+<li>Training error flatters a fitted model; risk is estimated on held-out data.</li>
+<li>Too simple underfits, too flexible overfits; use CV to pick the complexity.</li>
+<li>Every choice made with the data (features, hyperparameters, the winning model) goes inside the validation loop, or the score flatters.</li>
+</ul>
+</div>
+</section>
+<section id="bias-and-variance" class="slide level2 optional">
+<h2>Bias and variance</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Expected test error = noise + bias² + variance
+</div>
+<p><strong>Bias:</strong> the average fit misses the truth. <strong>Variance:</strong> fits scatter from one dataset to the next. <strong>Noise:</strong> no model can remove it.</p>
+</div>
+<div id="a8c87b7f" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-13-output-1.png" alt="Forty degree-1 fits, each on a fresh dataset of 25 points, all miss the sine shape in the same way (bias squared 0.10, variance 0.01). Forty degree-9 fits follow the shape on average but spread out, most at the edges where x is rare (bias squared 0.00, variance 0.73)." width="1004" height="271"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>At input <span class="math inline">\(x\)</span>, with <span class="math inline">\(Y = f^*(x) + \varepsilon\)</span>, noise variance <span class="math inline">\(\sigma^2\)</span>, averaging over training sets: <span class="math display">\[\mathbb{E}\big[(Y - \hat f(x))^2\big] = \sigma^2 + \big(\mathbb{E}[\hat f(x)] - f^*(x)\big)^2 + \mathrm{Var}\big(\hat f(x)\big)\]</span></p>
+</div></details>
+</section>
+<section id="which-part-of-the-test-error-shrinks-most" class="slide level2 optional">
+<h2>Which part of the test error shrinks most?</h2>
+<div class="question">
+<p>You double the training set for the degree-9 model.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Noise</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> Bias</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> Variance</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> All three equally</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Noise is in the data, not the model: more data can’t remove it.</li>
+<li><strong>B ✗</strong> Degree 9 can already follow the curve, so its bias was near zero.</li>
+<li><strong>C ✓</strong> More data steadies each fit: variance falls from 0.73 to 0.05.</li>
+<li><strong>D ✗</strong> The parts react differently: variance falls, noise stays, bias barely moves.</li>
+</ul>
+<div id="6e26721d" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-14-output-1.png" alt="Degree-9 fits on 25 and on 50 points: the spread of fits narrows when n doubles (variance 0.73 to 0.05), bias stays near zero." width="1004" height="126"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="aside-double-descent" class="slide level2 optional">
+<h2>Aside: double descent</h2>
+<div id="9bb1713e" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-15-output-1.png" alt="Schematic: as model size grows, held-out error first follows a U-shape, spikes at the interpolation threshold where parameters roughly equal n, then falls again in the over-parameterised regime; training error reaches zero at the threshold." width="985" height="447"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regularisation-penalise-large-weights" class="slide level2 optional">
+<h2>Regularisation: penalise large weights</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Ridge regression
+</div>
+<p>Training error <strong>+ λ × size of the weights</strong>. λ sets the penalty; choose it by CV.</p>
+</div>
+<div id="f7698a56" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-16-output-1.png" alt="The same degree-9 polynomial fitted with three penalty strengths: with no penalty it wiggles and its squared weights sum to about 500 billion; with lambda 10 to the minus 4 it follows the sine (sum 120); with lambda 0.1 it is too flat (sum 1)." width="1004" height="388"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Minimise <span class="math inline">\(\hat R_n(w) + \lambda \lVert w \rVert^2\)</span>, where <span class="math inline">\(w\)</span> are the polynomial’s coefficients and <span class="math inline">\(\lVert w \rVert^2 = \sum_j w_j^2\)</span>.</p>
+</div></details>
+</section>
+<section id="what-is-the-best-next-step" class="slide level2 optional">
+<h2>What is the best next step?</h2>
+<div class="question">
+<p>Training error 2%, validation error 25%.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> A more flexible model</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> More regularisation, or more data</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Train for longer</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Report 2%: validation sets are noisy</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> More flexibility fits the training data even more closely: the gap grows.</li>
+<li><strong>B ✓</strong> A big gap between training and validation error means high variance; regularisation or more data reduce it.</li>
+<li><strong>C ✗</strong> Training longer lowers the training error further and widens the gap; it is a fix for underfitting.</li>
+<li><strong>D ✗</strong> 2% is measured on the data the model was fitted to.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="nested-cross-validation" class="slide level2 optional">
+<h2>Nested cross-validation</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Score the <strong>whole selection procedure</strong> on data it never saw.</p>
+</div>
+<div id="83be73c2" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-17-output-1.png" alt="Nested cross-validation for one outer split: one outer fold (green) is held out for the final score; inner cross-validation on the remaining folds (blue, with orange validation folds) picks the hyperparameter, the model is refitted on all blue folds and scored on green. Repeat for every outer split and average." width="985" height="411"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="leave-one-out-vs-5-fold-cv-what-changes" class="slide level2 optional">
+<h2>Leave-one-out vs 5-fold CV: what changes?</h2>
+<div class="question">
+<p>Leave-one-out CV makes every point its own fold (here K = 25). Compared with 5-fold CV…</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>A.</strong> Fits see 24 points, not 20: less pessimistic, 5× the fits</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> The estimate has no noise left</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> The estimate is always noisier</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Nothing changes: K doesn’t matter</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✓</strong> CV fits on less data than we have, so it leans pessimistic; leave-one-out fits on 24 of 25 points, so it leans less, at the cost of 25 fits.</li>
+<li><strong>B ✗</strong> Each fold error still depends on the 25 points we happened to draw.</li>
+<li><strong>C ✗</strong> A rule of thumb, not a law: on our example, leave-one-out was slightly steadier (spread 0.04 vs 0.05).</li>
+<li><strong>D ✗</strong> K sets how much data each fit sees and how many fits you run.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section></section>
+<section>
+<section id="trees-and-ensembles" class="title-slide slide level1 center">
+<h1>2 · Trees and ensembles</h1>
+
+</section>
+<section id="same-data-a-different-model" class="slide level2 nostretch">
+<h2>Same data, a different model</h2>
+<div id="040d7372" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-18-output-1.png" alt="Topic 1's 25 points shown twice. Left: the degree-3 polynomial, a smooth curve. Right: a regression tree three questions deep, a step function with 8 flat pieces; dotted vertical lines mark where its questions split x." width="1004" height="381"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-tree-is-a-set-of-ifelse-rules" class="slide level2 nostretch">
+<h2>A tree is a set of if–else rules</h2>
+<div class="r-stack anim">
+<p><img data-src="images/anim/tree-0.png" alt="Start: 120 points of two classes, circles and triangles, all in one box; no question asked yet." width="1000"></p>
+<p><img data-src="images/anim/tree-1.png" class="fragment" alt="First question: is x1 at most 0.49? If yes, leaf A1 predicts circle. If not, the right half is still mixed, so the tree asks again." width="1000"></p>
+<p><img data-src="images/anim/tree-2.png" class="fragment" alt="Second question, on the right half: is x2 at most 0.41? If yes, leaf A2 predicts circle; otherwise leaf A3 predicts triangle. Right: the three leaves as rectangles; triangles fill the top-right rectangle A3." width="1000"></p>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>A tree with <span class="math inline">\(T\)</span> leaves cuts the inputs into regions <span class="math inline">\(A_1, \dots, A_T\)</span> and predicts a constant <span class="math inline">\(w_j\)</span> in each, so that <span class="math inline">\(f(x) = \sum_{j=1}^{T} w_j \, \mathbb{1}\{x \in A_j\}\)</span>. For classification, <span class="math inline">\(w_j\)</span> is the majority class in <span class="math inline">\(A_j\)</span>; for regression, the mean of the <span class="math inline">\(y_i\)</span> that fall in <span class="math inline">\(A_j\)</span>.</p>
+</div></details>
+</section>
+<section id="deep-trees-overfit" class="slide level2">
+<h2>Deep trees overfit</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>A <strong>bootstrap sample</strong>: <span class="math inline">\(n\)</span> rows drawn at random from our <span class="math inline">\(n\)</span>, with replacement. Two bootstrap samples, two very different deep trees: <strong>high variance</strong>.</p>
+</div>
+<div id="df1e9e48" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-21-output-1.png" alt="Two fully grown trees, each fitted to a different bootstrap sample of the same two-class data. Points drawn more than once are drawn larger; points left out of the sample are hollow (33% and 38% of the rows). The trees' regions differ a lot: one has 11 leaves including a thin strip along the bottom, the other 7 leaves with a different shape." width="1004" height="386"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Each draw picks a given row with probability <span class="math inline">\(1/n\)</span>, so a row is left out of a bootstrap sample with probability <span class="math inline">\((1 - 1/n)^n \approx e^{-1} \approx 0.37\)</span>: about a third of the rows.</p>
+</div></details>
+</section>
+<section id="bagging-average-many-deep-trees" class="slide level2 nostretch">
+<h2>Bagging: average many deep trees</h2>
+<div id="9da31717" class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-22-output-1.png" alt="Bagging as a picture. Our two-class data feeds three bootstrap samples; a deep tree is grown on each, and their regions differ. The trees' votes are averaged into one smoother prediction." width="1094" height="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="random-forests" class="slide level2 nostretch">
+<h2>Random forests</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>A <strong>random forest</strong> is bagging with one change: each split may use only a few features, drawn at random afresh at every split.</p>
+</div>
+<div id="f2988d32" class="cell" data-execution_count="23">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-23-output-1.png" alt="The bagging picture again, for a random forest: three bootstrap samples, a deep tree grown on each, and their vote. The trees differ more than in bagging. On the right, inside each tree: split 1 may use features x1 and x3 of x1 to x5, split 2 may use x2 and x5, and so on." width="1094" height="442"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-boosting-fit-the-errors-tree-by-tree" class="slide level2 nostretch">
+<h2>Gradient boosting: fit the errors, tree by tree</h2>
+<div class="r-stack anim">
+<p><img data-src="images/anim/boosting-0.png" alt="Boosting after 0 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-1.png" class="fragment" alt="Boosting after 1 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-2.png" class="fragment" alt="Boosting after 2 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-3.png" class="fragment" alt="Boosting after 3 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-4.png" class="fragment" alt="Boosting after 10 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-5.png" class="fragment" alt="Boosting after 30 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+<p><img data-src="images/anim/boosting-6.png" class="fragment" alt="Boosting after 100 trees: left, the current fit with its errors as orange bars; right, the next small tree fitted to those errors." width="1000"></p>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Start from <span class="math inline">\(F_0\)</span>, the mean of the <span class="math inline">\(y_i\)</span>. Round <span class="math inline">\(m\)</span> fits a small tree to the residuals <span class="math inline">\(r_i = y_i - F_{m-1}(x_i)\)</span> and adds a fraction <span class="math inline">\(\eta\)</span> of it: <span class="math display">\[F_m(x) = F_{m-1}(x) + \eta\,\mathrm{tree}_m(x)\]</span> For squared loss the residuals are the negative gradient of the loss with respect to <span class="math inline">\(F\)</span>, so each round is a step of gradient descent. For any other loss, each tree is fitted to the negative gradient instead (the <em>pseudo-residuals</em>); with log loss for classes, that is <span class="math inline">\(y_i - p_i\)</span>, the label minus the predicted probability.</p>
+</div></details>
+</section>
+<section id="what-xgboost-adds" class="slide level2 nostretch">
+<h2>What XGBoost adds</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>XGBoost = gradient boosting + four upgrades.</p>
+</div>
+<div id="54388371" class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-26-output-1.png" alt="Four tiles. Newton steps: uses the slope g and the curvature h of the loss. Penalised trees: fewer leaves (gamma) and smaller leaf values (lambda). Missing values: learns which branch missing values take. Fast split search: bins each feature and tries bin edges only." width="956" height="399"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p><span class="math inline">\(g_i\)</span> and <span class="math inline">\(h_i\)</span>: first and second derivatives of the loss at the current fit. <span class="math inline">\(T\)</span>: number of leaves; <span class="math inline">\(w_j\)</span>: value in leaf <span class="math inline">\(j\)</span>. Round <span class="math inline">\(m\)</span> grows a tree, one split at a time, to make this small: <span class="math display">\[\sum_{i=1}^{n}\Big[g_i\,\mathrm{tree}_m(x_i) + \tfrac12 h_i\,\mathrm{tree}_m(x_i)^2\Big] + \gamma T + \tfrac12 \lambda \sum_{j=1}^{T} w_j^2\]</span> For a given tree shape, the best leaf values are <span class="math inline">\(w_j = -G_j/(H_j + \lambda)\)</span>, where <span class="math inline">\(G_j\)</span> and <span class="math inline">\(H_j\)</span> add up <span class="math inline">\(g_i\)</span> and <span class="math inline">\(h_i\)</span> over the points in leaf <span class="math inline">\(j\)</span>.</p>
+</div></details>
+</section>
+<section id="why-does-a-forest-use-only-some-features-per-split" class="slide level2">
+<h2>Why does a forest use only some features per split?</h2>
+<div class="question">
+<p>At each split, a random forest considers only a random subset of the features.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> To save computation</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> To decorrelate the trees, so averaging removes more variance</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> To reduce each tree’s bias</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> To handle missing values</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> It does save time, but that is a side effect, not the reason.</li>
+<li><strong>B ✓</strong> Trees that split on different features make different errors; averaging cancels more of them.</li>
+<li><strong>C ✗</strong> Wrong direction: each tree gets slightly worse; it is the average that improves.</li>
+<li><strong>D ✗</strong> Missing values are a separate problem (XGBoost learns a default branch for them).</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="what-does-the-next-boosting-tree-fit" class="slide level2">
+<h2>What does the next boosting tree fit?</h2>
+<div class="question">
+<p>Gradient boosting with squared loss, 10 rounds in: the model so far is <span class="math inline">\(F_{10}(x)\)</span>. What is tree 11 fitted to?</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> The original targets <span class="math inline">\(y\)</span></p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> The residuals <span class="math inline">\(y - F_{10}(x)\)</span>: the errors so far</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> A fresh bootstrap sample of the rows</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Only the rows the model gets most wrong</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Every tree would then learn the same thing; boosting subtracts what is already fitted.</li>
+<li><strong>B ✓</strong> Each tree fits what is still unexplained, then <span class="math inline">\(F_{11} = F_{10} + \eta\,\mathrm{tree}_{11}\)</span>. For squared loss the residuals are the negative gradient.</li>
+<li><strong>C ✗</strong> That is bagging: independent trees on resampled rows, averaged.</li>
+<li><strong>D ✗</strong> That is closer to AdaBoost’s reweighting; gradient boosting fits the residual of every row.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="what-do-500-more-trees-do-to-a-random-forest" class="slide level2">
+<h2>What do 500 more trees do to a random forest?</h2>
+<div class="question">
+<p>A random forest of 500 trees. You add 500 more.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Cause overfitting</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Change the test error very little</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Halve the variance</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Reduce the bias</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Averaging more trees cannot overfit; that intuition comes from boosting.</li>
+<li><strong>B ✓</strong> By 500 trees the average has settled; the curve is already flat.</li>
+<li><strong>C ✗</strong> Part of the variance comes from the trees’ correlation and does not shrink with more trees.</li>
+<li><strong>D ✗</strong> Averaging leaves the bias where it was.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="validation-loss-is-rising-what-do-you-do" class="slide level2">
+<h2>Validation loss is rising: what do you do?</h2>
+<div class="question">
+<p>Boosting for 2,000 rounds: training loss keeps falling, but validation loss started rising after round 300.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Keep all 2,000: more trees average out noise</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Stop near round 300, or lower η and re-tune</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Use deeper trees</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Use a larger η</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Boosting does not average: each tree fits the errors left over, noise included.</li>
+<li><strong>B ✓</strong> Rising validation loss means overfitting: keep the round with the lowest validation loss (early stopping).</li>
+<li><strong>C ✗</strong> Deeper trees add flexibility and overfit sooner.</li>
+<li><strong>D ✗</strong> Bigger steps overfit sooner too.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="more-trees-error-falls-then-flattens" class="slide level2 nostretch">
+<h2>More trees: error falls, then flattens</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>One deep tree gets 27% of test cases wrong; bagging 17%; a random forest 15%.</p>
+</div>
+<div id="2e6b7c33" class="cell" data-execution_count="27">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-27-output-1.png" alt="Test error against the number of trees B on a log scale. One deep tree has 27% error. Bagging falls to 17% and a random forest to 15%; both curves flatten out and never turn back up." width="979" height="342"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Each tree has variance <span class="math inline">\(\sigma_t^2\)</span>, and any two trees have correlation <span class="math inline">\(\rho\)</span>. The average of <span class="math inline">\(B\)</span> trees has variance <span class="math display">\[\mathrm{Var}\Big(\frac{1}{B}\sum_{b=1}^{B} \hat f_b(x)\Big) = \rho\,\sigma_t^2 + \frac{1-\rho}{B}\,\sigma_t^2\]</span> More trees shrink only the second term. Random feature subsets lower <span class="math inline">\(\rho\)</span>, and with it the first.</p>
+</div></details>
+</section>
+<section id="recap-1" class="slide level2">
+<h2>Recap</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key points
+</div>
+<ul>
+<li>A tree is a greedy, axis-aligned partition: low bias, high variance.</li>
+<li>A random forest averages decorrelated trees: variance falls, and more trees don’t make it overfit.</li>
+<li>Gradient boosting adds small trees fitted to the current errors, which is gradient descent on the loss: it needs a learning rate and early stopping.</li>
+<li>XGBoost is gradient boosting with second-order steps and a penalty on the trees.</li>
+</ul>
+</div>
+</section>
+<section id="growing-a-tree-the-best-split" class="slide level2 optional nostretch">
+<h2>Growing a tree: the best split</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Try every feature and threshold; keep the split whose two halves are purest.</p>
+</div>
+<div id="56d04545" class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-28-output-1.png" alt="Top: the two-class data spread along x1. Bottom: the impurity after splitting at each threshold on x1 (measured with Gini), weighted by the sizes of the two halves. It starts at 0.48 (no split), falls to a minimum of about 0.30 at x1 = 0.49, the best split, and rises again." width="986" height="389"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>For classification, use Gini impurity. The Gini impurity of a node in which a share <span class="math inline">\(p_k\)</span> of the points has class <span class="math inline">\(k\)</span> is <span class="math inline">\(G = \sum_k p_k(1 - p_k)\)</span>. It is 0 for a pure node and 0.5 for two balanced classes. A split is scored by the Gini of its two halves, weighted by their sizes. For regression, the squared error replaces Gini.</p>
+</div></details>
+</section>
+<section id="out-of-bag-error-a-free-held-out-set" class="slide level2 optional">
+<h2>Out-of-bag error: a free held-out set</h2>
+<div id="5899f901" class="cell" data-execution_count="29">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-29-output-1.png" alt="Fourteen rows of training data and three bootstrap samples. In each sample some rows are drawn more than once (marked x2, x3) and the rest, shown in orange, are left out: 36%, 50% and 43% of the rows." width="981" height="342"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>A row is missing from a bootstrap sample with probability <span class="math inline">\((1 - 1/n)^n \approx e^{-1} \approx 0.37\)</span>. Scoring each row with only the trees that never saw it, and averaging, gives the <strong>out-of-bag error</strong>.</p>
+</div></details>
+</section>
+<section id="a-forests-spread-is-not-an-interval" class="slide level2 optional nostretch">
+<h2>A forest’s spread is not an interval</h2>
+<div id="64dc4e72" class="cell" data-execution_count="30">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-30-output-1.png" alt="A random forest fitted to noisy points from a sine curve. A light band shows the middle 90% of the 500 trees' predictions at each x. Grey new data points often fall outside it: the band holds only 51% of new points, not 90%." width="962" height="387"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="more-trees-a-forest-vs-boosting" class="slide level2 optional nostretch">
+<h2>More trees: a forest vs boosting</h2>
+<div id="0962a240" class="cell" data-execution_count="31">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-31-output-1.png" alt="Validation error against the number of trees on the same data. Left, a random forest: the error drops and then stays flat. Right, boosting: the error falls and then rises. With learning rate 0.3 the lowest point is at 8 rounds; with 0.05 it is at 49 rounds." width="1006" height="419"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="more-trees-with-xgboost" class="slide level2 optional nostretch">
+<h2>More trees, with XGBoost</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>On this toy data, XGBoost (16%) ties with the random forest (15%).</p>
+</div>
+<div id="d732ec89" class="cell" data-execution_count="32">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-32-output-1.png" alt="The test-error plot from earlier with XGBoost added: test error against the number of trees on a log scale. One deep tree 27%. Bagging falls to 17%, XGBoost to 16% and a random forest to 15%; XGBoost's curve, with learning rate 0.1 and depth 4, follows the forest's closely." width="979" height="342"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="when-to-reach-for-trees" class="slide level2 optional">
+<h2>When to reach for trees</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>On tabular data (rows × mixed numeric and categorical columns), tree ensembles are strong defaults, and often beat neural networks.</p>
+</div>
+</section>
+<section id="break" class="slide level2 break-slide">
+<h2>Break</h2>
+<div class="break-time">
+<p>5 minutes</p>
+</div>
+</section></section>
+<section>
+<section id="neural-networks-for-sbi" class="title-slide slide level1 center">
+<h1>3 · Neural networks for SBI</h1>
+
+</section>
+<section id="from-a-linear-model-to-a-network" class="slide level2 nostretch">
+<h2>From a linear model to a network</h2>
+<div id="33042f4b" class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-33-output-1.png" alt="A network with three inputs x1 to x3, four hidden units and one output y-hat. The edges into the hidden layer carry the weights and biases W1, b1; the edges into the output carry W2, b2. Each hidden unit computes h = relu(W1 x + b1), shown as a bent-line icon; the output is y-hat = W2 h + b2. relu(z) = max(0, z)." width="991" height="447"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p><span class="math display">\[f_\theta(x) = W_2\,\mathrm{relu}(W_1 x + b_1) + b_2, \qquad \mathrm{relu}(z) = \max(0, z)\]</span> <span class="math inline">\(\theta\)</span> collects every weight and bias. Without the relu, <span class="math inline">\(W_2(W_1 x + b_1) + b_2\)</span> is again a linear function of <span class="math inline">\(x\)</span>: stacking linear layers adds no power.</p>
+</div></details>
+</section>
+<section id="hidden-units-add-up-bent-lines" class="slide level2 nostretch">
+<h2>Hidden units add up bent lines</h2>
+<div id="fe0b8001" class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-34-output-1.png" alt="Left: the six hidden units of a small trained network, each a straight line bent once at a kink (orange dots mark the kinks inside the plot). Right: their sum, a piecewise-linear curve that follows the 25 noisy points from the sine curve." width="1004" height="390"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-descent-and-the-learning-rate" class="slide level2 nostretch">
+<h2>Gradient descent and the learning rate</h2>
+<div id="aa67c642" class="cell" data-execution_count="35">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-35-output-1.png" alt="Loss contours over two parameters with gradient-descent paths from the same start. Learning rate 0.02: slow, loss 20 to 4.5 in 20 steps. Rate 0.2: reaches the minimum, loss 0.0. Rate 0.255: bounces from side to side and grows, loss 20 to 49." width="973" height="390"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Each step moves the parameters against the gradient: <span class="math inline">\(\theta \leftarrow \theta - \eta\, \nabla_\theta L(\theta)\)</span>, with learning rate <span class="math inline">\(\eta\)</span>.</p>
+</div></details>
+</section>
+<section id="stochastic-gradient-descent" class="slide level2 nostretch">
+<h2>Stochastic gradient descent</h2>
+<div id="c8d0c7e3" class="cell" data-execution_count="36">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-36-output-1.png" alt="Left: two paths on loss contours from the same start. Full-batch gradient descent, using all 2,000 examples per step, follows a smooth curve to the minimum. SGD, using 4 random examples per step, zig-zags around it but heads the same way. Right: training loss against gradient steps for both; SGD's curve is noisy but follows the full-batch curve down." width="1004" height="433"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>At step <span class="math inline">\(t\)</span>, draw a random mini-batch <span class="math inline">\(S_t\)</span> and step along its average gradient: <span class="math display">\[\theta_{t+1} = \theta_t - \eta\,\frac{1}{|S_t|}\sum_{i \in S_t} \nabla_\theta\, \ell\big(y_i, f_{\theta_t}(x_i)\big)\]</span> Averaged over the random draw of <span class="math inline">\(S_t\)</span>, this equals the full-data gradient: unbiased, but noisy.</p>
+</div></details>
+</section>
+<section id="overfitting-in-networks" class="slide level2 nostretch">
+<h2>Overfitting in networks</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Same cure as for boosting: <strong>stop early</strong>, at the lowest loss on held-out data.</p>
+</div>
+<div id="5e3f2e04" class="cell" data-execution_count="37">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-37-output-1.png" alt="Schematic: training loss keeps falling with training steps, while validation loss falls and then rises. The lowest point of the validation loss is marked: stop here and keep these weights." width="985" height="351"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="training-minimise-a-negative-log-likelihood" class="slide level2 nostretch">
+<h2>Training: minimise a negative log-likelihood</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Loss = −log(the probability the model gives to the true answer).</p>
+</div>
+<div id="1659830f" class="cell" data-execution_count="38">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-38-output-1.png" alt="Left: the model's prediction as a bell curve centred on y-hat. A true value near y-hat sits where the bell is high (height 0.53); a true value far from y-hat sits in the tail (height 0.03). Right: the loss, minus the log of the height at the true y, plotted against y: a parabola with its minimum at y-hat. The near value has loss 0.6, the far value 3.5." width="1004" height="369"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>If the model predicts <span class="math inline">\(y \sim \mathcal{N}(\hat y, \sigma^2)\)</span>, then <span class="math inline">\(-\log p(y) = \dfrac{(y - \hat y)^2}{2\sigma^2} + \log \sigma + \text{const}\)</span>: for a fixed <span class="math inline">\(\sigma\)</span>, the squared loss. Training finds the <span class="math inline">\(\theta\)</span> that minimises the average loss over the training data.</p>
+</div></details>
+</section>
+<section id="a-network-that-outputs-a-distribution" class="slide level2 nostretch">
+<h2>A network that outputs a distribution</h2>
+<div id="48260f9a" class="cell" data-execution_count="39">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-39-output-1.png" alt="SBI in one picture. Top row: parameters theta drawn from the prior p(theta) go into a simulator, which produces data x; many pairs (theta, x) train a network q_phi(theta given x) with the loss minus log q_phi(theta given x). Bottom: the observed data x0 goes into the trained network, which returns a distribution over theta, q_phi(theta given x0)." width="1032" height="314"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>The network outputs a mean <span class="math inline">\(\mu_\phi(x)\)</span> and a standard deviation <span class="math inline">\(\sigma_\phi(x)\)</span>: a bell curve over <span class="math inline">\(\theta\)</span> whose centre and width depend on <span class="math inline">\(x\)</span>. It is trained on the simulated pairs with the loss <span class="math inline">\(-\log q_\phi(\theta \mid x)\)</span> from the last slide.</p>
+</div></details>
+</section>
+<section id="how-many-parameters" class="slide level2">
+<h2>How many parameters?</h2>
+<div class="question">
+<p>3 inputs, 4 hidden units, 1 output, with biases.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> 16</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> 17</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> 21</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> 12</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Forgets all the biases: 12 + 4 weights.</li>
+<li><strong>B ✗</strong> Forgets the 4 hidden biases.</li>
+<li><strong>C ✓</strong> <span class="math inline">\(W_1\)</span>: 3 × 4 = 12, <span class="math inline">\(b_1\)</span>: 4, <span class="math inline">\(W_2\)</span>: 4, <span class="math inline">\(b_2\)</span>: 1. Total 21.</li>
+<li><strong>D ✗</strong> Counts only the first layer’s weights.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="remove-every-relu-what-can-the-network-represent" class="slide level2">
+<h2>Remove every relu: what can the network represent?</h2>
+<div class="question">
+<p>Any number of layers, but no relu anywhere.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>A.</strong> Only linear functions of <span class="math inline">\(x\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> The same functions as before</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Only functions through the origin</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Quadratic functions</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✓</strong> A linear map of a linear map is linear: the layers collapse into one.</li>
+<li><strong>B ✗</strong> Depth alone adds nothing; the nonlinearity does the work.</li>
+<li><strong>C ✗</strong> That would be removing the biases, not the relus.</li>
+<li><strong>D ✗</strong> Nothing multiplies <span class="math inline">\(x\)</span> by itself, so no squares appear.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="a-mini-batch-gradient-vs-the-full-gradient" class="slide level2">
+<h2>A mini-batch gradient vs the full gradient?</h2>
+<div class="question">
+<p>A random mini-batch of 32 examples gives a gradient <span class="math inline">\(\hat g\)</span>. Compared with the full-data gradient <span class="math inline">\(g\)</span>…</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> <span class="math inline">\(\hat g = g\)</span> always</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> <span class="math inline">\(\hat g\)</span> equals <span class="math inline">\(g\)</span> on average, but is noisy</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> <span class="math inline">\(\hat g\)</span> is biased towards the batch</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> <span class="math inline">\(\hat g\)</span> is useless unless the batch is at least 10% of the data</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Different batches give different gradients: there is sampling noise.</li>
+<li><strong>B ✓</strong> Every example is equally likely to be drawn, so the average over batches is <span class="math inline">\(g\)</span>.</li>
+<li><strong>C ✗</strong> Noise is not bias: a single batch is off, but not systematically.</li>
+<li><strong>D ✗</strong> Small batches work well in practice; the noise even helps a little.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="what-does-the-trained-network-approximate" class="slide level2">
+<h2>What does the trained network approximate?</h2>
+<div class="question">
+<p>A network is trained on 100,000 simulated pairs <span class="math inline">\((\theta, x)\)</span>: <span class="math inline">\(\theta\)</span> from the prior, then <span class="math inline">\(x\)</span> from the simulator given <span class="math inline">\(\theta\)</span>. It minimises <span class="math inline">\(-\log q_\phi(\theta \mid x)\)</span>. For the observed data <span class="math inline">\(x_0\)</span>, <span class="math inline">\(q_\phi(\theta \mid x_0)\)</span> approximates…</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> The likelihood <span class="math inline">\(p(x_0 \mid \theta)\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> The prior <span class="math inline">\(p(\theta)\)</span></p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> The posterior <span class="math inline">\(p(\theta \mid x_0)\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> The exact <span class="math inline">\(\theta\)</span> that produced <span class="math inline">\(x_0\)</span></p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> The likelihood is a distribution over <span class="math inline">\(x\)</span>; the network outputs a distribution over <span class="math inline">\(\theta\)</span>.</li>
+<li><strong>B ✗</strong> The network takes <span class="math inline">\(x\)</span> as input; its output changes with the data.</li>
+<li><strong>C ✓</strong> The pairs come from <span class="math inline">\(p(\theta)\,p(x \mid \theta)\)</span>, so the best <span class="math inline">\(q\)</span> for each <span class="math inline">\(x\)</span> is <span class="math inline">\(p(\theta \mid x)\)</span>.</li>
+<li><strong>D ✗</strong> Noisy data leave uncertainty about <span class="math inline">\(\theta\)</span>: the network returns a spread, not one value.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="recap-2" class="slide level2">
+<h2>Recap</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key points
+</div>
+<ul>
+<li>A network is linear maps composed with nonlinearities; SGD trains it with noisy but unbiased mini-batch gradients.</li>
+<li>The loss is a negative log-likelihood: −log of the probability given to the true answer. For a bell curve, that is the squared error.</li>
+<li>A network can output a distribution; trained on simulated pairs <span class="math inline">\((\theta, x)\)</span>, it estimates the posterior <span class="math inline">\(p(\theta \mid x)\)</span>: the starting point for SBI later this week.</li>
+</ul>
+</div>
+</section>
+<section id="backpropagation-the-chain-rule-backwards" class="slide level2 optional nostretch">
+<h2>Backpropagation: the chain rule, backwards</h2>
+<div class="r-stack anim">
+<p><img data-src="images/anim/backprop-0.png" alt="A tiny network: x = 2, w1 = 1 and b1 = −1 feed z = w1 x + b1; h = relu(z); y-hat = w2 h with w2 = 3; loss L = ½(y-hat − y)² with y = 1." width="1000"></p>
+<p><img data-src="images/anim/backprop-1.png" class="fragment" alt="Forward pass, step 1: values computed and stored left to right." width="1000"></p>
+<p><img data-src="images/anim/backprop-2.png" class="fragment" alt="Forward pass, step 2: values computed and stored left to right." width="1000"></p>
+<p><img data-src="images/anim/backprop-3.png" class="fragment" alt="Forward pass, step 3: values computed and stored left to right." width="1000"></p>
+<p><img data-src="images/anim/backprop-4.png" class="fragment" alt="Forward pass, step 4: values computed and stored left to right." width="1000"></p>
+<p><img data-src="images/anim/backprop-5.png" class="fragment" alt="Backward pass, step 1: gradients passed right to left, each a local derivative times the incoming gradient." width="1000"></p>
+<p><img data-src="images/anim/backprop-6.png" class="fragment" alt="Backward pass, step 2: gradients passed right to left, each a local derivative times the incoming gradient." width="1000"></p>
+<p><img data-src="images/anim/backprop-7.png" class="fragment" alt="Backward pass, step 3: gradients passed right to left, each a local derivative times the incoming gradient." width="1000"></p>
+<p><img data-src="images/anim/backprop-8.png" class="fragment" alt="Backward pass, step 4: gradients passed right to left, each a local derivative times the incoming gradient." width="1000"></p>
+</div>
+</section>
+<section id="for-classes-cross-entropy" class="slide level2 optional nostretch">
+<h2>For classes: cross-entropy</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Same rule as for numbers: loss = −log(the probability the model gives to the true class).</p>
+</div>
+<div id="d6df062e" class="cell" data-execution_count="42">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-42-output-1.png" alt="Three predictions for a classifier. Confident and right gives the true class probability 0.9, loss 0.11. Unsure gives 0.5, loss 0.69. Confident and wrong gives the true class only 0.1, loss 2.30." width="993" height="313"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>With two classes and <span class="math inline">\(y \in \{0, 1\}\)</span>, the model predicts <span class="math inline">\(\hat p = P(y = 1)\)</span>, and <span class="math inline">\(-\log p(y) = -y \log \hat p - (1 - y)\log(1 - \hat p)\)</span>: the cross-entropy, or log loss.</p>
+</div></details>
+</section></section>
+<section>
+<section id="conformal-prediction" class="title-slide slide level1 center">
+<h1>4 · Conformal prediction</h1>
+
+</section>
+<section id="how-far-off-could-the-prediction-be" class="slide level2">
+<h2>How far off could the prediction be?</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Not just a best guess: a range that holds the true answer <strong>9 times out of 10</strong>, whatever the model.</p>
+</div>
+<div id="bbbb5ed5" class="cell" data-execution_count="43">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-43-output-1.png" alt="A maps app's travel time to the airport. One best guess: 25 minutes. An honest range: 20 to 35 minutes. Of 10 past trips, 9 took a time inside the range and one, 38 minutes, fell outside." width="985" height="294"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="coverage-for-any-model" class="slide level2 nostretch">
+<h2>90% coverage, for any model</h2>
+<div id="0f6deb4c" class="cell" data-execution_count="44">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-44-output-1.png" alt="A random forest's predictions on noisy points from a sine curve, with a 90% conformal band around them. New points inside the band are green, points outside are red crosses: 90% of 500 new points fall inside the band." width="920" height="435"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="split-conformal-step-by-step" class="slide level2 nostretch">
+<h2>Split conformal, step by step</h2>
+<div class="r-stack anim">
+<p><img data-src="images/anim/split-0.png" alt="Step 1: the data are split: 200 points to fit the model, 100 to calibrate, then new data." width="1000"></p>
+<p><img data-src="images/anim/split-1.png" class="fragment" alt="Step 2: each of the 100 calibration points gets a score, how far off the model is there, |y minus y-hat|; a histogram of the 100 scores." width="1000"></p>
+<p><img data-src="images/anim/split-2.png" class="fragment" alt="The score that 90% stay under: q-hat = 0.52, the 91st smallest of 100." width="1000"></p>
+<p><img data-src="images/anim/split-3.png" class="fragment" alt="Step 3: on new data, the band prediction plus or minus q-hat: 90% of new points fall inside." width="1000"></p>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Scores <span class="math inline">\(s_i = \lvert y_i - \hat f(x_i) \rvert\)</span> on the <span class="math inline">\(n_{\mathrm{cal}}\)</span> calibration points. For coverage <span class="math inline">\(1 - \alpha\)</span> (here <span class="math inline">\(\alpha = 0.1\)</span>): <span class="math display">\[\hat q = \text{the } \big\lceil (n_{\mathrm{cal}}+1)(1-\alpha) \big\rceil\text{-th smallest score}\]</span> <span class="math display">\[C(x) = \big[\hat f(x) - \hat q,\; \hat f(x) + \hat q\big]\]</span> With <span class="math inline">\(n_{\mathrm{cal}} = 100\)</span>: <span class="math inline">\(\lceil 101 \times 0.9 \rceil = 91\)</span>.</p>
+</div></details>
+</section>
+<section id="why-it-works-ranks" class="slide level2 nostretch">
+<h2>Why it works: ranks</h2>
+<div id="35a5d268" class="cell" data-execution_count="47">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-47-output-1.png" alt="Ten slots on a line, cut by 9 calibration scores (orange dots). A new score is equally likely to land in any of the 10 slots, each with probability 1/10. q-hat is the 9th smallest score; 9 of the 10 slots lie at or below it, so the new point is covered with probability 9/10." width="1004" height="409"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>If the calibration scores and the new score are <strong>exchangeable</strong> (for example, i.i.d.), the new score’s rank among all <span class="math inline">\(n_{\mathrm{cal}} + 1\)</span> is equally likely to be any of <span class="math inline">\(1, \dots, n_{\mathrm{cal}} + 1\)</span>. So <span class="math display">\[\mathbb{P}\big(s_{\text{new}} \le \hat q\big) = \frac{\big\lceil (n_{\mathrm{cal}}+1)(1-\alpha) \big\rceil}{n_{\mathrm{cal}}+1} \;\ge\; 1 - \alpha\]</span></p>
+</div></details>
+</section>
+<section id="what-is-guaranteed" class="slide level2 nostretch">
+<h2>What is guaranteed</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>At least 90% <strong>on average</strong> over calibration sets and new points. One calibration set can land a little above or below; more calibration points, less spread.</p>
+</div>
+<div id="ddb8e8d4" class="cell" data-execution_count="48">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-48-output-1.png" alt="Coverage on new data for 1,000 different calibration sets. With 20 calibration points it averages 90.8% but ranges from about 79% to 98%. With 1,000 calibration points it averages 90.0% and stays between 88% and 92%." width="1006" height="352"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p><span class="math display">\[1-\alpha \;\le\; \mathbb{P}\big(Y \in C(X)\big) \;\le\; 1-\alpha+\frac{1}{n_{\mathrm{cal}}+1}\]</span> The probability is over the calibration set and the new point; the upper bound holds when the scores have no ties.</p>
+</div></details>
+</section>
+<section id="overall-can-hide-71-in-one-group" class="slide level2 nostretch">
+<h2>90% overall can hide 71% in one group</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>The guarantee is <strong>marginal</strong>: an average over everyone. Calibrate each group separately to get 90% in each.</p>
+</div>
+<div id="f89469ae" class="cell" data-execution_count="49">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-49-output-1.png" alt="Coverage by group with one q-hat for everyone: 95% for patients under 70, 71% for patients over 70, 90% overall. With one q-hat per group: 90% in each group and overall. A dashed line marks the 90% target." width="987" height="358"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="when-it-breaks" class="slide level2 nostretch">
+<h2>When it breaks</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>One assumption: new data look like the calibration data (<strong>exchangeable</strong>).</p>
+</div>
+<div id="0c87888b" class="cell" data-execution_count="50">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-50-output-1.png" alt="The same 90% band on two sets of new data. Left, new data like the calibration data: 90% covered. Right, new data after a change, shifted upward and noisier: many points fall outside and only 62% are covered." width="1004" height="370"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="an-overfitted-model-conformalised-what-happens" class="slide level2">
+<h2>An overfitted model, conformalised: what happens?</h2>
+<div class="question">
+<p>A badly overfitted model is conformalised on a proper held-out calibration set.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Coverage fails</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Coverage holds, but intervals are wide</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Coverage holds and intervals are narrow</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Overfitted models cannot be conformalised</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Coverage needs exchangeable data, not a good model.</li>
+<li><strong>B ✓</strong> Its errors on held-out data are large, so <span class="math inline">\(\hat q\)</span> is large: honest, but wide.</li>
+<li><strong>C ✗</strong> Narrow intervals need a model that predicts well on new data.</li>
+<li><strong>D ✗</strong> Any model can be wrapped; that’s the point.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="calibration-scores-computed-on-the-training-data" class="slide level2">
+<h2>Calibration scores computed on the training data?</h2>
+<div class="question">
+<p>You compute the scores on the data the model was fitted to, instead of a held-out calibration set. Coverage will be…</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Unchanged</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Below 90%: training errors are too small</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Above 90%</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Exactly 90%</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> The scores must come from data the model never saw.</li>
+<li><strong>B ✓</strong> Training error flatters (topic 1): <span class="math inline">\(\hat q\)</span> is too small, so the band is too narrow.</li>
+<li><strong>C ✗</strong> Wrong direction: training errors understate errors on new data.</li>
+<li><strong>D ✗</strong> The guarantee holds only for scores on held-out data.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="which-statement-is-guaranteed" class="slide level2">
+<h2>Which statement is guaranteed?</h2>
+<div class="question">
+<p>Split conformal with <span class="math inline">\(\alpha = 0.1\)</span>.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Each interval contains its <span class="math inline">\(y\)</span> with probability 0.9, whatever <span class="math inline">\(x\)</span> is</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Over new points, at least 90% of intervals contain their <span class="math inline">\(y\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Exactly 90 of the next 100 intervals contain <span class="math inline">\(y\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> The intervals are as narrow as possible</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> That is coverage at every <span class="math inline">\(x\)</span>; the guarantee is an average over <span class="math inline">\(x\)</span>.</li>
+<li><strong>B ✓</strong> Marginal coverage: on average over new points, at least 90%.</li>
+<li><strong>C ✗</strong> Any batch of 100 varies around 90; “exactly” is never promised.</li>
+<li><strong>D ✗</strong> The width depends on the model and the score; only coverage is guaranteed.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="which-of-these-breaks-the-coverage-guarantee" class="slide level2">
+<h2>Which of these breaks the coverage guarantee?</h2>
+<div class="question">
+<p>Split conformal at 90%, calibrated on a held-out set.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> The model is a badly overfitted deep network</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span><strong>B.</strong> The model is misspecified</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>C.</strong> Calibration data from 2023, test data from 2026 after a policy change</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> The errors are not Gaussian</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> A bad model gets wide intervals, but coverage still holds.</li>
+<li><strong>B ✗</strong> The guarantee never assumes the model is right.</li>
+<li><strong>C ✓</strong> After the change, new data no longer look like the calibration data: exchangeability fails.</li>
+<li><strong>D ✗</strong> No noise distribution is assumed; the scores’ own quantile does the work.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="recap-3" class="slide level2">
+<h2>Recap</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key points
+</div>
+<ul>
+<li>Split conformal turns any model’s errors on a held-out calibration set into sets that contain the truth at least 90% (1 − α) of the time.</li>
+<li>The only assumption is exchangeability. A poor model still gets valid coverage; its intervals are just wide.</li>
+<li>90% is an average over new points, not a promise for each single prediction.</li>
+</ul>
+</div>
+</section>
+<section id="why-the-1-in-the-quantile" class="slide level2 optional">
+<h2>Why the +1 in the quantile?</h2>
+<div class="question">
+<p><span class="math inline">\(\hat q\)</span> uses the <span class="math inline">\(\lceil (n_{\mathrm{cal}}+1)(1-\alpha) \rceil\)</span>-th smallest score, not the <span class="math inline">\(\lceil n_{\mathrm{cal}}(1-\alpha) \rceil\)</span>-th.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Rounding convenience</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> The new score is one of <span class="math inline">\(n_{\mathrm{cal}} + 1\)</span>; the +1 makes the guarantee hold for any <span class="math inline">\(n_{\mathrm{cal}}\)</span></p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> It makes intervals narrower</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> It only matters for classification</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> It changes which score you pick, and so the coverage.</li>
+<li><strong>B ✓</strong> The rank argument counts <span class="math inline">\(n_{\mathrm{cal}} + 1\)</span> equally likely slots, the new point included.</li>
+<li><strong>C ✗</strong> The +1 picks a slightly larger score: intervals get a little wider.</li>
+<li><strong>D ✗</strong> The argument is the same for any score, regression or classification.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="calibration-is-not-coverage" class="slide level2 optional nostretch">
+<h2>Calibration is not coverage</h2>
+<div id="650f2334" class="cell" data-execution_count="51">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-51-output-1.png" alt="Two promises side by side. Left, calibration, about probabilities: how often an event happened against its predicted probability. A calibrated classifier lies on the diagonal; an over-confident one is flatter, so events it predicts at 95% happen about 84% of the time. Right, coverage, about ranges: ten new cases, each with a range; 9 of the 10 ranges contain the true value and one misses." width="1073" height="409"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="does-a-calibrated-classifier-give-90-coverage" class="slide level2 optional">
+<h2>Does a calibrated classifier give 90% coverage?</h2>
+<div class="question">
+<p>A classifier’s probabilities are perfectly calibrated. You predict the set of classes with probability ≥ 0.1. Does that set contain the truth 90% of the time?</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> Yes, always</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> Not necessarily: calibration is about probabilities, coverage about sets</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> Only with ten or more classes</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Only for binary problems</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Nothing links the threshold 0.1 to 90%; it depends on how the probabilities spread over classes.</li>
+<li><strong>B ✓</strong> A set needs its own guarantee; conformal prediction gives one.</li>
+<li><strong>C ✗</strong> The number of classes doesn’t create a guarantee.</li>
+<li><strong>D ✗</strong> Even with two classes, the set can cover more or less than 90%.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="classification-prediction-sets" class="slide level2 optional nostretch">
+<h2>Classification: prediction sets</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>Keep every class whose probability clears a calibrated threshold. Hard inputs get bigger sets.</p>
+</div>
+<div id="a65a6017" class="cell" data-execution_count="52">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-52-output-1.png" alt="Predicted probabilities for cat, dog, fox and wolf on three images, with a threshold at 0.15. Image 1 (0.92 cat) gives the set {cat}; image 2 (0.48 cat, 0.45 dog) gives {cat, dog}; image 3 (0.30, 0.25, 0.25, 0.20) keeps all four classes." width="991" height="360"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Score <span class="math inline">\(s(x, y) = 1 - \hat p_y(x)\)</span>: one minus the probability given to the true class. Calibrate <span class="math inline">\(\hat q\)</span> as before; the set is <span class="math inline">\(C(x) = \{y : \hat p_y(x) \ge 1 - \hat q\}\)</span>. Here <span class="math inline">\(\hat q = 0.85\)</span>, so the threshold is 0.15.</p>
+</div></details>
+</section>
+<section id="the-prediction-set-is-empty-what-does-it-tell-you" class="slide level2 optional">
+<h2>The prediction set is empty: what does it tell you?</h2>
+<div class="question">
+<p>For one input, no class clears the threshold.</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no1"> <span id="no1" x-show="answer == $el.id" class="badge">✗</span><strong>A.</strong> A bug</p><p></p>
+</div>
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span><strong>B.</strong> An unusual input: flag it</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no3"> <span id="no3" x-show="answer == $el.id" class="badge">✗</span><strong>C.</strong> The model is 100% confident</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no4"> <span id="no4" x-show="answer == $el.id" class="badge">✗</span><strong>D.</strong> Coverage has failed for this run</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+<details class="cbox cbox-answer answer-list"><summary>
+Answers
+</summary><div class="cbox-body">
+<ul>
+<li><strong>A ✗</strong> Empty sets are allowed: every probability can fall below the threshold.</li>
+<li><strong>B ✓</strong> The model spreads its probability so thinly that no class qualifies.</li>
+<li><strong>C ✗</strong> A confident model gives a set of one class, not none.</li>
+<li><strong>D ✗</strong> Coverage is an average over inputs; an empty set is part of it.</li>
+</ul>
+</div></details>
+<p><span class="vote-chip">Vote · <strong>38549456</strong></span></p>
+</section>
+<section id="adaptive-intervals" class="slide level2 optional nostretch">
+<h2>Adaptive intervals</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<p>When noise varies, a constant width over-covers easy inputs and under-covers hard ones. <strong>Conformalised quantile regression</strong> (CQR) adapts the width.</p>
+</div>
+<div id="bf283cd0" class="cell" data-execution_count="53">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/cell-53-output-1.png" alt="Noise grows from left to right. Left, a constant-width conformal band: 99% covered for small x but only 79% for large x. Right, an adaptive CQR band that widens with x: 90% and 92% covered." width="1004" height="350"></p>
+</figure>
+</div>
+</div>
+</div>
+<details class="cbox cbox-maths"><summary>
+The maths
+</summary><div class="cbox-body">
+<p>Fit models for the 5% and 95% quantiles, <span class="math inline">\(\hat y_{\mathrm{lo}}(x)\)</span> and <span class="math inline">\(\hat y_{\mathrm{hi}}(x)\)</span>. Score <span class="math inline">\(s_i = \max\big(\hat y_{\mathrm{lo}}(x_i) - y_i,\; y_i - \hat y_{\mathrm{hi}}(x_i)\big)\)</span>, calibrate <span class="math inline">\(\hat q\)</span> as before, and predict <span class="math inline">\(\big[\hat y_{\mathrm{lo}}(x) - \hat q,\; \hat y_{\mathrm{hi}}(x) + \hat q\big]\)</span>.</p>
+</div></details>
+</section>
+<section id="going-further" class="slide level2 optional">
+<h2>Going further</h2>
+<div class="keypoint cbox cbox-keypoint">
+<div class="cbox-title">
+Key point
+</div>
+<ul>
+<li><strong>Venn–Abers predictors:</strong> calibrated probabilities, with a guarantee.</li>
+<li><strong>MAPIE:</strong> conformal prediction for scikit-learn models.</li>
+<li><strong>Jackknife+ and CV+:</strong> no separate calibration set, more computation.</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="closing" class="title-slide slide level1 center">
+<h1>Closing</h1>
+
+</section>
+<section id="four-things-to-take-home" class="slide level2">
+<h2>Four things to take home</h2>
+<ol type="1">
+<li><strong>Model evaluation:</strong> judge a model only on data it never saw, and keep every choice made with the data inside that loop.</li>
+<li><strong>Trees:</strong> average deep trees to cut variance (random forest); add small trees to cut bias, and stop early (boosting, XGBoost).</li>
+<li><strong>Networks:</strong> train by minimising a negative log-likelihood with SGD. A network can output a whole distribution: the starting point for SBI.</li>
+<li><strong>Conformal:</strong> errors on held-out data turn any model’s prediction into a range that holds the truth at least 90% of the time, assuming only exchangeable data.</li>
+</ol>
+</section>
+<section id="resources" class="slide level2 resources">
+<h2>Resources</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h4 id="model-evaluation-1">1 · Model evaluation</h4>
+<ul>
+<li><a href="https://www.statlearning.com/">ISLP, Ch. 2 &amp; 5</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/cross_validation.html">scikit-learn: Cross-validation</a></li>
+<li><a href="https://jmlr.org/papers/v11/cawley10a.html">Cawley &amp; Talbot (2010)</a></li>
+<li><a href="https://arxiv.org/abs/2207.07048">Kapoor &amp; Narayanan (2023): leakage in ML-based science</a></li>
+</ul>
+<h4 id="trees-ensembles">2 · Trees &amp; ensembles</h4>
+<ul>
+<li><a href="https://www.statlearning.com/">ISLP, Ch. 8</a></li>
+<li><a href="https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf">Breiman (2001): Random forests</a></li>
+<li><a href="https://xgboost.readthedocs.io/en/stable/tutorials/model.html">XGBoost: Introduction to Boosted Trees</a></li>
+<li><a href="https://arxiv.org/abs/1603.02754">Chen &amp; Guestrin (2016)</a></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h4 id="neural-networks">3 · Neural networks</h4>
+<ul>
+<li><a href="https://www.deeplearningbook.org/">Goodfellow et al., <em>Deep Learning</em>, Ch. 5–8</a></li>
+<li><a href="https://www.statlearning.com/">ISLP, Ch. 10</a></li>
+<li><a href="https://arxiv.org/abs/1911.01429">Cranmer, Brehmer &amp; Louppe (2020): the frontier of SBI</a></li>
+<li><a href="https://sbi.readthedocs.io/en/stable/">sbi: a Python toolkit for SBI</a></li>
+</ul>
+<h4 id="conformal-prediction-1">4 · Conformal prediction</h4>
+<ul>
+<li><a href="https://arxiv.org/abs/2107.07511">Angelopoulos &amp; Bates, <em>A Gentle Introduction</em></a></li>
+<li><a href="https://mapie.readthedocs.io/">MAPIE docs</a></li>
+</ul>
+</div></div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>AI, Uncertainty &amp; Simulation Workshop, Mauritius · ML foundations</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\">\u003ckbd>b\u003c/kbd> Toggle Chalkboard\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"6\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\">\u003ckbd>c\u003c/kbd> Toggle Notes Canvas\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"7\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\">\u003ckbd>d\u003c/kbd> Download Drawings\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"8\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'mathjax/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script>
+    // "The maths" drop-downs (see theme.scss): open the formula panel upward or
+    // downward, whichever fits on the slide, and cap its height so it stays on it.
+    (function () {
+      function place(d) {
+        var body = d.querySelector(':scope > .cbox-body');
+        var slide = d.closest('section');
+        if (!d.open || !body || !slide || !window.Reveal) return;
+        var scale = Reveal.getScale() || 1;
+        var top = slide.getBoundingClientRect().top;
+        function y(v) { return (v - top) / scale; }
+        var title = slide.querySelector('h2, h1');
+        var ceiling = title ? y(title.getBoundingClientRect().bottom) + 6 : 10;
+        var bar = d.getBoundingClientRect();
+        var above = y(bar.top) - 6 - ceiling;
+        var below = Reveal.getConfig().height - y(bar.bottom) - 16;
+        body.style.maxHeight = 'none';
+        var need = body.scrollHeight;
+        var up = need <= above || (need > below && above >= below);
+        d.classList.toggle('drop-down', !up);
+        body.style.maxHeight = Math.max(60, up ? above : below) + 'px';
+      }
+      document.addEventListener('toggle', function (e) {
+        var d = e.target;
+        if (d.matches && d.matches('details.cbox-maths')) place(d);
+      }, true);
+    })();
+    </script>
+    <script>
+
+    // Overview (Esc / O): Left/Right jump between columns, Up/Down move within one.
+
+    //
+
+    // Each topic is a vertical column of slides. Reveal's own Left/Right in the
+
+    // overview kept the row: Right from slide 7 of topic 1 landed on slide 7 of
+
+    // topic 2. Here Left/Right go to the first slide of the previous/next column.
+
+    // The normal view is unchanged: Left/Right step slide by slide, so a clicker
+
+    // still walks through the talk in order.
+
+    (function () {
+
+      function setup() {
+
+        var kb = Reveal.getConfig().keyboard;
+
+        var own = kb && typeof kb === "object" ? kb : {};
+
+        function step(dir) {
+
+          return function () {
+
+            if (!Reveal.isOverview()) return dir > 0 ? Reveal.next() : Reveal.prev();
+
+            var h = Reveal.getIndices().h + dir;
+
+            if (h < 0 || h >= Reveal.getHorizontalSlides().length) return;
+
+            Reveal.slide(h, 0);
+
+          };
+
+        }
+
+        Reveal.configure({
+
+          keyboard: Object.assign({}, own, { 37: step(-1), 39: step(1) }),
+
+        });
+
+      }
+
+      if (window.Reveal && Reveal.isReady && Reveal.isReady()) setup();
+
+      else if (window.Reveal) Reveal.on("ready", setup);
+
+    })();
+
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+          window.quartoDecorateExternalLinks = function (root) {
+         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+              if (!link.classList.contains('no-external-icon')) {
+              }
+            }
+          }
+          };
+          window.quartoDecorateExternalLinks(window.document);
+        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+        const hideOnEscAndFocusOut = {
+          name: 'hideOnEscAndFocusOut',
+          defaultValue: true,
+          fn(instance) {
+            const dismiss = () => {
+              // A show scheduled by the trigger delay would otherwise reopen it
+              instance.clearDelayTimeouts();
+              instance.hide();
+            };
+            const onKeyDown = (event) => {
+              if (event.key !== 'Escape') {
+                return;
+              }
+              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+              // except an open reveal.js slide menu, which Esc should close too.
+              // The menu handles keys only when its keyboard option is on.
+              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+                window.Reveal.getConfig().menu?.keyboard !== false;
+              if (!menuHandlesEsc) {
+                event.stopPropagation();
+              }
+              if (instance.popper.contains(window.document.activeElement)) {
+                // Disabled while refocusing so the focus trigger does not reopen it
+                instance.disable();
+                instance.reference.focus();
+                instance.enable();
+              }
+              dismiss();
+            };
+            const onFocusOut = (event) => {
+              const target = event.relatedTarget;
+              if (target && !instance.reference.contains(target) &&
+                  !instance.popper.contains(target)) {
+                dismiss();
+              }
+            };
+            // On the trigger too: a click trigger (code-annotations: select) has no
+            // blur handling. Attached for the instance's lifetime so leaving the
+            // trigger also cancels a show still pending on the trigger delay.
+            instance.reference.addEventListener('focusout', onFocusOut);
+            return {
+              onShow() {
+                window.document.addEventListener('keydown', onKeyDown, true);
+                instance.popper.addEventListener('focusout', onFocusOut);
+              },
+              onHide() {
+                window.document.removeEventListener('keydown', onKeyDown, true);
+                instance.popper.removeEventListener('focusout', onFocusOut);
+              },
+              onDestroy() {
+                instance.reference.removeEventListener('focusout', onFocusOut);
+              },
+            };
+          },
+        };
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+            plugins: [hideOnEscAndFocusOut],
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+<script src="slides_files/libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
+</body></html>
